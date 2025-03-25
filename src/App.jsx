@@ -8,6 +8,7 @@ import LoadingPage from "./Pages/LoadingPage";
 function App() {
   const [questionData, setQuestionData] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [userScore, setUserScore] = useState(0);
 
   return (
     <div className="bg-(--bg) h-screen w-full font-montserrat text-(--color-main) place-content-center justify-center">
@@ -27,7 +28,12 @@ function App() {
             isLoading ? (
               <LoadingPage />
             ) : (
-              questionData && <QuizPage questionData={questionData} />
+              questionData && (
+                <QuizPage
+                  questionData={questionData}
+                  setUserScore={setUserScore}
+                />
+              )
             )
           }
         />

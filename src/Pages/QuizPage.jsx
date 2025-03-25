@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../components/Button";
 
-function QuizPage({ questionData }) {
+function QuizPage({ questionData, setUserScore }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const shuffleQuestions = (correctAnswer, incorrectAnswer) => {
     const allQuestions = [...incorrectAnswer];
@@ -13,25 +13,51 @@ function QuizPage({ questionData }) {
     questionData[questionIndex].correct_answer,
     questionData[questionIndex].incorrect_answers
   );
+
+  const [userSelected, setUserSelected] = useState(false);
+  const userAnswer = (e) => {
+    console.log(e.target.innerText);
+    console.log(questionData[questionIndex].correct_answer);
+    if (e.target.innerText === questionData[questionIndex].correct_answer) {
+      console.log("correct");
+      setUserScore((score) => score + 1);
+      setUserSelected(!userSelected);
+    } else {
+      console.log("incorrect");
+      setUserSelected(!userSelected);
+    }
+  };
   return (
     <div className="place-items-center mx-5">
       <h1 className="text-6xl md:text-8xl font-bold text-center my-10">
         Quizster
       </h1>
       <div className="flex border-5 max-w-[980px] justify-between flex-col md:flex-row">
-        <div className="flex flex-col p-10 gap-5 md:gap-10 lg:gap-20">
+        <div className="flex flex-col p-10 gap-5 place-content-evenly">
           <h2 className="text-5xl font-bold">{questionIndex + 1}/10</h2>
-          <p className="text-2xl font-bold">
+          <p className="text-xl font-bold">
             {questionData[questionIndex].question}
           </p>
-          <Button btnText={"Next question"} />
+          {userSelected && (
+            <p className="font-medium">
+              Correct answer: {questionData[questionIndex].correct_answer}
+            </p>
+          )}
+          {userSelected && <Button btnText={"Next question"} />}
         </div>
         <div className="grid gird-rows-4 md:grid-cols-[250px_minmax(250px,1fr)]">
           <div className="h-40 md:h-[240px] md:border-l-5 border-b-5 md:border-b-none border-t-5 md:border-t-0">
             <p className="text-bold text-5xl h-[60%] text-center place-content-center">
               1
             </p>
-            <p className="h-[40%] text-center place-content-center border border-t-5 bg-(--color-secondary) hover:bg-(--hover)">
+            <p
+              className={`h-[40%] text-center place-content-center border border-t-5 bg-(--color-secondary) font-medium p-1 cursor-pointer ${
+                !userSelected && "hover:bg-(--hover)"
+              }`}
+              onClick={(e) => {
+                !userSelected && userAnswer(e);
+              }}
+            >
               {displayQuestion[0]}
             </p>
           </div>
@@ -39,7 +65,14 @@ function QuizPage({ questionData }) {
             <p className="text-bold text-5xl h-[60%] text-center place-content-center">
               2
             </p>
-            <p className="h-[40%] text-center place-content-center border border-t-5 bg-(--color-secondary) hover:bg-(--hover)">
+            <p
+              className={`h-[40%] text-center place-content-center border border-t-5 bg-(--color-secondary) font-medium p-1 cursor-pointer ${
+                !userSelected && "hover:bg-(--hover)"
+              }`}
+              onClick={(e) => {
+                !userSelected && userAnswer(e);
+              }}
+            >
               {displayQuestion[1]}
             </p>
           </div>
@@ -47,7 +80,14 @@ function QuizPage({ questionData }) {
             <p className="text-bold text-5xl h-[60%] text-center place-content-center">
               3
             </p>
-            <p className="h-[40%] text-center place-content-center border border-t-5 bg-(--color-secondary) hover:bg-(--hover)">
+            <p
+              className={`h-[40%] text-center place-content-center border border-t-5 bg-(--color-secondary) font-medium p-1 cursor-pointer ${
+                !userSelected && "hover:bg-(--hover)"
+              }`}
+              onClick={(e) => {
+                !userSelected && userAnswer(e);
+              }}
+            >
               {displayQuestion[2]}
             </p>
           </div>
@@ -55,7 +95,14 @@ function QuizPage({ questionData }) {
             <p className="text-bold text-5xl h-[60%] text-center place-content-center">
               4
             </p>
-            <p className="h-[40%] text-center place-content-center border border-t-5 bg-(--color-secondary) hover:bg-(--hover)">
+            <p
+              className={`h-[40%] text-center place-content-center border border-t-5 bg-(--color-secondary) font-medium p-1 cursor-pointer ${
+                !userSelected && "hover:bg-(--hover)"
+              }`}
+              onClick={(e) => {
+                !userSelected && userAnswer(e);
+              }}
+            >
               {displayQuestion[3]}
             </p>
           </div>
