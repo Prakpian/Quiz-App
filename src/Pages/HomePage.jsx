@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../components/Button";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
-function HomePage() {
+function HomePage({ setQuestionData, setIsLoading }) {
+  const [category, setCategory] = useState("");
+  const [difficulty, setDifficulty] = useState("");
+  const fetchQuestions = async () => {
+    const res = await axios.get(
+      `https://opentdb.com/api.php?amount=10&type=multiple${category}${difficulty}`
+    );
+    setQuestionData(res.data.results);
+    setIsLoading(false);
+  };
   return (
     <div className="grid justify-items-center mx-5">
       <h1 className="text-(--color-main) font-bold text-[15vw] sm:text-8xl">
@@ -24,12 +35,13 @@ function HomePage() {
           name="category"
           id="category-select"
           className="border border-5 rounded-md py-2 px-4 w-[200px] md:w-[300px]"
+          onChange={(e) => setCategory("&category=" + e.target.value)}
         >
-          <option value="allCategory" className="">
+          <option value="" className="">
             All category
           </option>
-          <option value="generalKnowledge">General Knowledge</option>
-          <option value="history">History</option>
+          <option value="9">General Knowledge</option>
+          <option value="23">History</option>
           <option value="vehicles">Vehicles</option>
           <option value="art">Art</option>
           <option value="sport">Sports</option>
@@ -49,13 +61,17 @@ function HomePage() {
           name="difficulty"
           id="difficulty-select"
           className="border border-5 rounded-md py-2 px-4 w-[200px] md:w-[300px]"
+          onChange={(e) => setDifficulty("&difficulty=" + e.target.value)}
         >
+          <option value="">Any difficulty</option>
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
           <option value="hard">Hard</option>
         </select>
       </div>
-      <Button btnText={"Test me"} />
+      <Link to={"/quiz"}>
+        <Button btnText={"Test me"} onClick={fetchQuestions} />
+      </Link>
     </div>
   );
 }
