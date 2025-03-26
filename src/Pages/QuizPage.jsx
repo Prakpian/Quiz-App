@@ -1,23 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 
 function QuizPage({ questionData, setUserScore }) {
   const [questionIndex, setQuestionIndex] = useState(0);
-  const shuffleQuestions = (correctAnswer, incorrectAnswer) => {
-    const allQuestions = [...incorrectAnswer];
-    const randomIndex = Math.floor(Math.random() * 5);
-    allQuestions.splice(randomIndex, 0, correctAnswer);
-    return allQuestions;
-  };
-  const displayQuestion = shuffleQuestions(
-    questionData[questionIndex].correct_answer,
-    questionData[questionIndex].incorrect_answers
-  );
-
   const [userSelected, setUserSelected] = useState(false);
+  const [shuffleQuestions, setShuffledQuestions] = useState([]);
+
+  useEffect(() => {
+    const shuffleQuestions = (correctAnswer, incorrectAnswers) => {
+      const allQuestions = [...incorrectAnswers];
+      const randomIndex = Math.floor(
+        Math.random() * (incorrectAnswers.length + 1)
+      );
+      allQuestions.splice(randomIndex, 0, correctAnswer);
+      return allQuestions;
+    };
+
+    setShuffledQuestions(
+      shuffleQuestions(
+        questionData[questionIndex].correct_answer,
+        questionData[questionIndex].incorrect_answers
+      )
+    );
+  }, [questionIndex, questionData]);
+
   const userAnswer = (e) => {
-    console.log(e.target.innerText);
-    console.log(questionData[questionIndex].correct_answer);
     if (e.target.innerText === questionData[questionIndex].correct_answer) {
       console.log("correct");
       setUserScore((score) => score + 1);
@@ -58,7 +65,7 @@ function QuizPage({ questionData, setUserScore }) {
                 !userSelected && userAnswer(e);
               }}
             >
-              {displayQuestion[0]}
+              {shuffleQuestions[0]}
             </p>
           </div>
           <div className="h-40 md:h-[240px] md:border-l-5 border-b-5 md:border-b-none">
@@ -73,7 +80,7 @@ function QuizPage({ questionData, setUserScore }) {
                 !userSelected && userAnswer(e);
               }}
             >
-              {displayQuestion[1]}
+              {shuffleQuestions[1]}
             </p>
           </div>
           <div className="h-40 md:h-[240px] md:border-l-5 border-b-5 md:border-b-0">
@@ -88,7 +95,7 @@ function QuizPage({ questionData, setUserScore }) {
                 !userSelected && userAnswer(e);
               }}
             >
-              {displayQuestion[2]}
+              {shuffleQuestions[2]}
             </p>
           </div>
           <div className="h-40 md:h-[240px] md:border-l-5">
@@ -103,7 +110,7 @@ function QuizPage({ questionData, setUserScore }) {
                 !userSelected && userAnswer(e);
               }}
             >
-              {displayQuestion[3]}
+              {shuffleQuestions[3]}
             </p>
           </div>
         </div>
