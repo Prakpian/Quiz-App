@@ -42,12 +42,12 @@ function HomePage({ setQuestionData, setIsLoading }) {
           </option>
           <option value="9">General Knowledge</option>
           <option value="23">History</option>
-          <option value="vehicles">Vehicles</option>
-          <option value="art">Art</option>
-          <option value="sport">Sports</option>
-          <option value="animeMange">Anime & Manga</option>
-          <option value="animals">Animals</option>
-          <option value="geography">Geography</option>
+          <option value="28">Vehicles</option>
+          <option value="25">Art</option>
+          <option value="21">Sports</option>
+          <option value="31">Anime & Manga</option>
+          <option value="27">Animals</option>
+          <option value="22">Geography</option>
         </select>
       </div>
       <div className="grid justify-items-center mb-10">
