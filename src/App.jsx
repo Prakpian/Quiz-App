@@ -4,11 +4,13 @@ import HomePage from "./Pages/HomePage";
 import { Route, Routes } from "react-router-dom";
 import QuizPage from "./Pages/QuizPage";
 import LoadingPage from "./Pages/LoadingPage";
+import ResultPage from "./Pages/ResultPage";
 
 function App() {
   const [questionData, setQuestionData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [userScore, setUserScore] = useState(0);
+  const [questionIndex, setQuestionIndex] = useState(0);
 
   return (
     <div className="bg-(--bg) h-screen w-full font-montserrat text-(--color-main) place-content-center justify-center">
@@ -32,9 +34,23 @@ function App() {
                 <QuizPage
                   questionData={questionData}
                   setUserScore={setUserScore}
+                  questionIndex={questionIndex}
+                  setQuestionIndex={setQuestionIndex}
                 />
               )
             )
+          }
+        />
+        <Route
+          path="/result"
+          element={
+            <ResultPage
+              userScore={userScore}
+              setUserScore={setUserScore}
+              setQuestionIndex={setQuestionIndex}
+              setQuestionData={setQuestionData}
+              setIsLoading={setIsLoading}
+            />
           }
         />
       </Routes>

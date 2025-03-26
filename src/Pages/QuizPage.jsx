@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
-function QuizPage({ questionData, setUserScore }) {
-  const [questionIndex, setQuestionIndex] = useState(0);
+function QuizPage({
+  questionData,
+  setUserScore,
+  questionIndex,
+  setQuestionIndex,
+}) {
+  const navigate = useNavigate();
+
   const [userSelected, setUserSelected] = useState(false);
   const [shuffleQuestions, setShuffledQuestions] = useState([]);
 
@@ -24,13 +31,20 @@ function QuizPage({ questionData, setUserScore }) {
     );
   }, [questionIndex, questionData]);
 
+  const nextQuestion = () => {
+    if (questionIndex === 9) {
+      navigate("/result");
+    } else {
+      setQuestionIndex((i) => i + 1);
+      setUserSelected(false);
+    }
+  };
+
   const userAnswer = (e) => {
     if (e.target.innerText === questionData[questionIndex].correct_answer) {
-      console.log("correct");
       setUserScore((score) => score + 1);
       setUserSelected(!userSelected);
     } else {
-      console.log("incorrect");
       setUserSelected(!userSelected);
     }
   };
@@ -50,7 +64,9 @@ function QuizPage({ questionData, setUserScore }) {
               Correct answer: {questionData[questionIndex].correct_answer}
             </p>
           )}
-          {userSelected && <Button btnText={"Next question"} />}
+          {userSelected && (
+            <Button btnText={"Next question"} onClick={nextQuestion} />
+          )}
         </div>
         <div className="grid gird-rows-4 md:grid-cols-[250px_minmax(250px,1fr)]">
           <div className="h-40 md:h-[240px] md:border-l-5 border-b-5 md:border-b-none border-t-5 md:border-t-0">
