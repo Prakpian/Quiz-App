@@ -4,6 +4,7 @@
 @theme {
   --color-main: #59301c;
   --color-secondary: #ec8945;
+  --hover: #d47b3e;
   --bg: #faf5ef;
   --font-montserrat: "Montserrat", sans-serif;
 }
