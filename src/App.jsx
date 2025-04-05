@@ -11,6 +11,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [userScore, setUserScore] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
+  const [error, setError] = useState(null);
 
   return (
     <div className="bg-(--bg) h-screen w-full font-montserrat text-(--color-main) place-content-center justify-center">
@@ -21,13 +22,16 @@ function App() {
             <HomePage
               setQuestionData={setQuestionData}
               setIsLoading={setIsLoading}
+              setError={setError}
             />
           }
         />
         <Route
           path="/quiz"
           element={
-            isLoading ? (
+            error ? (
+              <p className="text-center font-bold text-2xl">{error}</p>
+            ) : isLoading ? (
               <LoadingPage />
             ) : (
               questionData && (

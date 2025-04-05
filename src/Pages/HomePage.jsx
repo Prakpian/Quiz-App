@@ -3,15 +3,25 @@ import Button from "../components/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function HomePage({ setQuestionData, setIsLoading }) {
+function HomePage({ setQuestionData, setIsLoading, setError }) {
   const [category, setCategory] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const fetchQuestions = async () => {
-    const res = await axios.get(
-      `https://opentdb.com/api.php?amount=10&type=multiple${category}${difficulty}`
-    );
-    setQuestionData(res.data.results);
-    setIsLoading(false);
+    setIsLoading(true);
+    try {
+      const res = await axios.get(
+        `https://opentdb.com/api.php?amount=10&type=multiple${category}${difficulty}a`
+      );
+      if (res.data.response_code !== 0) {
+        throw new Error("API returned no results");
+      }
+      setQuestionData(res.data.results);
+    } catch (error) {
+      console.error("Error from fetching questions", error);
+      setError("Failed to load questions. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <div className="grid justify-items-center mx-5">
